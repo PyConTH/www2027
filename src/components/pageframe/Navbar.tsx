@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import primaryLogo from '../../assets/common/pyconth27_primary_logo.svg?url';
+import pyconth27_primary_logo from '../../assets/common/pyconth27_primary_logo.svg?url';
 
 type MenuType = {
 	name: string;
@@ -66,13 +66,13 @@ const menu: MenuType[] = [
 const SOLID_SCROLL_THRESHOLD = 10;
 
 // Single CTA slot shown in the nav (desktop) and drawer (mobile). Only one
-// button is ever shown — to switch it from "Buy Ticket" to "Submit Proposal"
-// (or back), just change label/href here; both places pick it up.
-// TODO: Buy Ticket — replace href with the Eventpop event link once it's live.
-// TODO: Submit Proposal — replace href with the Sessionize CFP link once it's live.
+// button is ever shown to switch it from "Buy Ticket" to "Submit Proposal"
+// just change label/href here, both places pick it up.
+// TODO: Buy Ticket replace href with the "Eventpop event link" once it's live.
+// TODO: Submit Proposal replace href with the "Sessionize CFP link" once it's live ! 
 const ctaButton = {
 	label: 'Buy Ticket',
-	href: '#',
+	href: 'https://www.eventpop.me/e/168229',
 };
 
 type CtaButtonProps = {
@@ -82,6 +82,8 @@ type CtaButtonProps = {
 const CtaButton = ({ className = '' }: CtaButtonProps) => (
 	<a
 		href={ctaButton.href}
+		target="_blank"
+		rel="noopener noreferrer"
 		className={`bg-primary-500 font-subheading tracking-wide text-primary-900 text-lg transition hover:text-primary-900 hover:bg-cream ${className}`}
 	>
 		{ctaButton.label}
@@ -173,16 +175,14 @@ function Navbar({ sections }: NavbarProps) {
 			<nav className="mx-auto flex items-center justify-between px-4 py-3 md:px-32">
 
 				<a href="/" className="flex items-center">
-					<img src={primaryLogo} alt="Logo" className="h-10 w-auto" />
+					<img src={pyconth27_primary_logo} alt="Logo" className="h-10 w-auto" />
 				</a>
 
 				<ul className="hidden items-center gap-6 md:flex">{renderMenu(menu)}</ul>
 
-				{/*
 				<div className="hidden md:block">
 					<CtaButton className="inline-block px-9 py-1" />
 				</div>
-				*/}
 
 				<button
 					type="button"
@@ -270,9 +270,7 @@ function Navbar({ sections }: NavbarProps) {
 					</button>
 					<ul className="flex flex-col gap-1">{renderMenu(menu, 'mobile')}</ul>
 					
-					{/*
 					<CtaButton className="mt-4 block w-full px-9 py-2 text-center" />
-					*/}
 
 				</div>
 			</div>
