@@ -58,10 +58,12 @@
 
 html {
 	cursor: url("../assets/common/pyconth27_theme_cursor.svg") 19 15, auto;
+	background-color: var(--color-primary-900);
 }
- 
+
 body {
 	overflow-x: hidden;
+	background-color: var(--color-primary-900);
 }
 
 /* ====================================== Scrollbar =============================== */
