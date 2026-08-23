@@ -111,7 +111,7 @@ function Hero() {
 				</p>
 				<p className="font-subheading text-base tracking-[2px] text-primary-500 sm:text-lg sm:tracking-[6px] md:text-2xl md:tracking-[10px]">
 					{' '}
-					Avani Sukhumvit Bangkong Hotel{' '}
+					Avani Sukhumvit Bangkok Hotel{' '}
 				</p>
 			</div>
 		</div>
