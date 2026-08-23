@@ -1,0 +1,63 @@
+---
+---
+
+<div id="lightbox" class="lightbox" aria-hidden="true">
+	<div id="lightbox-backdrop" class="lightbox-backdrop"></div>
+	<button type="button" id="lightbox-close" class="lightbox-close" aria-label="Close image">
+		<svg width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+		</svg>
+	</button>
+	<img id="lightbox-image" class="lightbox-image" src="" alt="" />
+</div>
+
+<script>
+	const lightbox = document.getElementById('lightbox');
+	const backdrop = document.getElementById('lightbox-backdrop');
+	const closeBtn = document.getElementById('lightbox-close');
+	const image = document.getElementById('lightbox-image') as HTMLImageElement | null;
+
+	function openLightbox(src: string, alt: string) {
+		if (!lightbox || !image) return;
+		image.src = src;
+		image.alt = alt;
+		image.classList.remove('is-zoomed');
+		lightbox.classList.add('is-open');
+		lightbox.setAttribute('aria-hidden', 'false');
+		document.body.classList.add('lightbox-locked');
+		window.lenisInstance?.stop();
+	}
+
+	function closeLightbox() {
+		if (!lightbox || !image) return;
+		lightbox.classList.remove('is-open');
+		lightbox.setAttribute('aria-hidden', 'true');
+		image.classList.remove('is-zoomed');
+		document.body.classList.remove('lightbox-locked');
+		window.lenisInstance?.start();
+	}
+
+	document.querySelectorAll<HTMLImageElement>('img[data-lightbox]').forEach((img) => {
+		img.addEventListener('click', () => openLightbox(img.currentSrc || img.src, img.alt));
+	});
+
+	backdrop?.addEventListener('click', closeLightbox);
+	closeBtn?.addEventListener('click', closeLightbox);
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') closeLightbox();
+	});
+ 
+	image?.addEventListener('click', (e) => {
+		if (!image) return;
+		if (image.classList.contains('is-zoomed')) {
+			image.classList.remove('is-zoomed');
+			return;
+		}
+		const rect = image.getBoundingClientRect();
+		const originX = ((e.clientX - rect.left) / rect.width) * 100;
+		const originY = ((e.clientY - rect.top) / rect.height) * 100;
+		image.style.transformOrigin = `${originX}% ${originY}%`;
+		image.classList.add('is-zoomed');
+	});
+</script>

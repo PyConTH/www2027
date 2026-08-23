@@ -1,0 +1,28 @@
+---
+import type { ConductBlock } from '../../data/conduct/types';
+
+export interface Props {
+	blocks: ConductBlock[];
+}
+
+const { blocks } = Astro.props;
+---
+
+{
+	blocks.map((block) => {
+		switch (block.type) {
+			case 'p':
+				return <p set:html={block.html} />;
+			case 'h3':
+				return <h3>{block.text}</h3>;
+			case 'ul':
+				return (
+					<ul>
+						{block.items.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				);
+		}
+	})
+}

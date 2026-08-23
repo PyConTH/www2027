@@ -1,0 +1,46 @@
+---
+---
+
+<nav data-lang-switcher class="pill-nav">
+	<button type="button" data-lang-btn="en" aria-pressed="true" class="pill-nav-btn">
+		English
+	</button>
+	<button type="button" data-lang-btn="th" aria-pressed="false" class="pill-nav-btn">
+		ภาษาไทย
+	</button>
+</nav>
+
+<script>
+	const STORAGE_KEY = 'conduct-lang';
+	const switcher = document.querySelector('[data-lang-switcher]');
+	const buttons = switcher ? Array.from(switcher.querySelectorAll('[data-lang-btn]')) : [];
+	const articles = Array.from(document.querySelectorAll('[data-lang-article]'));
+
+	function setLang(lang: string) {
+		articles.forEach((el) => {
+			(el as HTMLElement).hidden = el.getAttribute('data-lang-article') !== lang;
+		});
+		buttons.forEach((btn) => {
+			const active = btn.getAttribute('data-lang-btn') === lang;
+			btn.setAttribute('aria-pressed', String(active));
+			btn.classList.toggle('is-active', active);
+		});
+		try {
+			localStorage.setItem(STORAGE_KEY, lang);
+		} catch {
+			
+		}
+	}
+
+	buttons.forEach((btn) => {
+		btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang-btn') || 'en'));
+	});
+
+	let initial = 'en';
+	try {
+		initial = localStorage.getItem(STORAGE_KEY) || 'en';
+	} catch {
+		// ignore
+	}
+	setLang(initial);
+</script>

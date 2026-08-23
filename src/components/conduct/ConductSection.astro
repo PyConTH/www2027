@@ -1,0 +1,15 @@
+---
+export interface Props {
+	title: string;
+	id?: string;
+}
+
+const { title, id } = Astro.props;
+---
+
+<section id={id} class="page-section">
+	<h2 class="section-title">{title}</h2>
+	<div class="dark-prose conduct-body">
+		<slot />
+	</div>
+</section>

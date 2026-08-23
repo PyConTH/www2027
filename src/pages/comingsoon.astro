@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageFrame from '../components/pageframe/PageFrame.tsx';
+import Header from '../components/Header.tsx';
+---
+
+<Layout
+	title="Coming Soon — PyCon Thailand"
+	description="This page is on its way — check back soon for more PyCon Thailand 2027 details."
+>
+	<PageFrame client:load>
+		<Header eyebrow="PyCon Thailand 2027" title="Coming Soon" fullHeight />
+	</PageFrame>
+</Layout>

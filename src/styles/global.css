@@ -1,0 +1,464 @@
+@import "tailwindcss";
+
+@theme {
+	--font-heading: "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+	--font-subheading: "Averia Serif Libre", Georgia, serif;
+	--font-content: "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+	--font-thai: "Sarabun", "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+	--font-prompt: "Prompt", "Sarabun", "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+
+	--color-primary-900: #013657;
+	--color-primary-900-rgb: 1 54 87;
+	--color-primary-800: #035079;
+	--color-primary-700: #016b8e;
+	--color-primary-500: #2aa3ae;
+	--color-primary-300: #6fdbd7;
+	--color-primary-100: #b0e9e7;
+
+	--color-secondary: #f9f9f9;
+	--color-cream: #f6f1cf;
+
+	--animate-float: float 6s ease-in-out infinite;
+	--animate-float-slow: float 9s ease-in-out infinite;
+	--animate-bob: bob 4s ease-in-out infinite;
+	--animate-sway: sway 5s ease-in-out infinite;
+	--animate-drift: drift 14s ease-in-out infinite alternate;
+	--animate-drift-slow: drift 22s ease-in-out infinite alternate;
+	--animate-pulse-soft: pulse-soft 4s ease-in-out infinite;
+}
+
+/* Font */
+
+@layer base {
+	body {
+		font-family: var(--font-content);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--font-heading);
+	}
+
+	.subheading {
+		font-family: var(--font-subheading);
+	}
+}
+ 
+:lang(th) {
+	font-family: var(--font-thai);
+}
+
+:lang(th) :is(h1, h2, h3, h4, h5, h6) {
+	font-family: var(--font-prompt);
+}
+
+html {
+	cursor: url("../assets/common/pyconth27_theme_cursor.svg") 19 15, auto;
+}
+ 
+body {
+	overflow-x: hidden;
+}
+
+/* ====================================== Scrollbar =============================== */
+
+html {
+	scrollbar-color: var(--color-primary-700) var(--color-primary-900);
+	scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--color-primary-900);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--color-primary-700);
+	border-radius: 9999px;
+	border: 2px solid var(--color-primary-900);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-primary-300);
+}
+
+/* ====================================== Hero Style and Creature =============================== */
+
+.hero-container {
+	align-items: center;
+	background-size: cover;
+}
+
+.creature-desktop {
+	display: none;
+}
+
+.creature-mobile {
+	display: block;
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+	.hero-container {
+		align-items: flex-end;
+		background-size: 100% auto;
+		padding-bottom: 3rem;
+	}
+
+	.creature-desktop {
+		display: block;
+	}
+
+	.creature-mobile {
+		display: none;
+	}
+}
+
+/* Animation */
+
+@keyframes float {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-18px);
+	}
+}
+
+@keyframes bob {
+	0%,
+	100% {
+		transform: translateY(0) rotate(0deg);
+	}
+	50% {
+		transform: translateY(-10px) rotate(3deg);
+	}
+}
+
+@keyframes sway {
+	0%,
+	100% {
+		transform: rotate(-4deg);
+	}
+	50% {
+		transform: rotate(4deg);
+	}
+}
+
+@keyframes drift {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(36px);
+	}
+}
+
+@keyframes pulse-soft {
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 0.85;
+	}
+	50% {
+		transform: scale(1.08);
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[class*='animate-'] {
+		animation: none !important;
+	}
+}
+
+/* ++++++++++++++++++++++++++++++++ Page Level Component Style +++++++++++++++++++++++++++++++ */
+ 
+@layer components {
+	.dark-page {
+		@apply bg-primary-900 px-4 pb-24 md:px-8;
+	}
+
+	.page-section {
+		@apply scroll-mt-28 border-b border-primary-700 py-8 last:border-none;
+	}
+
+	.section-title {
+		@apply font-heading text-2xl text-primary-300 md:text-3xl;
+	}
+
+	/* Floating sticky section-jump sidebar + its content column — shared layout
+	   for any page with a SectionNav (venue, code of conduct). */
+	.page-layout {
+		@apply mx-auto flex max-w-6xl flex-col gap-6 lg:flex-row lg:items-start lg:gap-12;
+	}
+
+	.page-content {
+		@apply mx-auto min-w-0 max-w-3xl flex-1 lg:mx-0;
+	}
+
+	.section-sidebar {
+		@apply hidden lg:sticky lg:top-28 lg:block lg:w-56 lg:shrink-0 lg:self-start;
+	}
+
+	.section-sidebar-list {
+		@apply flex flex-col gap-1 border-l border-primary-700 text-lg font-semibold;
+	}
+
+	.section-sidebar-link,
+	.section-sidebar-sublink {
+		@apply -ml-px block border-l-2 border-transparent px-4 transition hover:border-primary-300 hover:text-white;
+	}
+
+	.section-sidebar-link {
+		@apply py-1.5 text-primary-300 hover:bg-primary-800/40;
+	}
+
+	.section-sidebar-sublink {
+		@apply py-1 text-base font-medium text-primary-100/80;
+	}
+
+	.section-sidebar-link.is-active,
+	.section-sidebar-sublink.is-active {
+		@apply border-primary-300 text-white;
+	}
+
+	.section-sidebar-link.is-active {
+		@apply bg-primary-800/40;
+	}
+
+	.section-sidebar-sublist {
+		@apply mt-1 space-y-1 pl-4;
+	}
+
+/* ====================================== Code of Conduct Page =============================== */
+	.conduct-article {
+		@apply mx-auto max-w-3xl pt-10;
+	}
+
+	.conduct-title {
+		@apply font-heading text-4xl text-primary-300 md:text-5xl;
+	}
+
+	.conduct-tagline {
+		@apply font-subheading mt-2 text-lg text-white;
+	}
+
+	.conduct-body {
+		@apply mt-4 space-y-4;
+	}
+
+	.pill-nav {
+		@apply mx-auto flex w-fit gap-1 rounded-full border border-primary-100 bg-white/90 p-1 text-sm font-semibold shadow-sm backdrop-blur;
+	}
+
+	.pill-nav-btn {
+		@apply rounded-full px-4 py-1.5 text-primary-700 transition hover:bg-primary-100 hover:text-primary-900;
+	}
+
+	.pill-nav-btn.is-active {
+		@apply bg-primary-700 text-white hover:text-white;
+	}
+
+	.header-band {
+		@apply ml-[calc(50%-50vw)] w-screen flex min-h-[220px] flex-col justify-center bg-center bg-cover bg-no-repeat px-4 pt-24 md:min-h-[320px] md:px-8;
+	}
+
+	.header-content {
+		@apply mx-auto max-w-3xl pb-10 text-center;
+	}
+
+	.page-eyebrow {
+		@apply font-subheading text-sm tracking-[4px] text-primary-300 uppercase;
+	}
+
+	.page-title {
+		@apply font-heading text-4xl text-primary-100 md:text-5xl;
+	}
+
+	.page-tagline {
+		@apply mt-2 text-lg text-primary-300;
+	}
+
+/* ====================================== Venue Page ================================================ */
+
+	.venue-card {
+		@apply scroll-mt-24 rounded-xl border border-primary-700 bg-primary-800/40 p-5;
+	}
+
+	.venue-card-title {
+		@apply mb-4 font-heading text-lg text-white;
+	}
+
+	.venue-card-text {
+		@apply mt-1 text-sm text-primary-100;
+	}
+
+	.venue-image {
+		@apply w-full rounded-lg border border-primary-700 object-cover;
+	}
+
+	.venue-section-image {
+		@apply mb-4 h-64 md:h-80;
+	}
+
+	.venue-image-grid {
+		@apply mb-4 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2;
+	}
+
+	.venue-image-grid .venue-image {
+		@apply h-64 w-[85%] shrink-0 snap-center sm:w-[60%] md:h-80 md:w-[45%] lg:w-[38%];
+	}
+
+	/* ========== Image Light Box of Venue =========== */
+
+	img[data-lightbox] {
+		cursor: zoom-in;
+	}
+
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 0.2s ease,
+			visibility 0.2s ease;
+	}
+
+	.lightbox.is-open {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.lightbox-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(1, 15, 25, 0.85);
+		backdrop-filter: blur(2px);
+	}
+
+	.lightbox-close {
+		position: absolute;
+		top: 1.25rem;
+		right: 1.25rem;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 9999px;
+		color: white;
+		background: rgb(var(--color-primary-900-rgb) / 0.6);
+		border: 1px solid var(--color-primary-700);
+		transition: background 0.15s ease;
+	}
+
+	.lightbox-close:hover {
+		background: var(--color-primary-700);
+	}
+
+	.lightbox-image {
+		position: relative;
+		max-width: min(90vw, 1200px);
+		max-height: 85vh;
+		width: auto;
+		height: auto;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-primary-700);
+		object-fit: contain;
+		cursor: zoom-in;
+		transform: scale(1);
+		transition: transform 0.25s ease;
+		touch-action: pinch-zoom;
+	}
+
+	.lightbox-image.is-zoomed {
+		cursor: zoom-out;
+		transform: scale(2.2);
+	}
+
+	body.lightbox-locked {
+		overflow: hidden;
+	}
+
+}
+
+/* Shared rich-text styling for prose on dark (primary-900) backgrounds 
+   used by the conduct page and the venue page. Sets its own base text color
+   so every usage gets legible text by default, without each caller having to
+   remember to add text-white alongside it. */
+
+.dark-prose {
+	color: white;
+}
+
+.dark-prose p {
+	line-height: 1.75;
+}
+
+.dark-prose h3,
+.dark-prose h4 {
+	font-family: var(--font-heading);
+	font-weight: 700;
+	margin-top: 0.5rem;
+}
+
+.dark-prose h3 {
+	font-size: 1.125rem;
+	color: var(--color-primary-300);
+}
+
+.dark-prose h4 {
+	font-size: 1rem;
+	color: var(--color-primary-100);
+}
+
+.dark-prose ul,
+.dark-prose ol {
+	padding-left: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.dark-prose ul {
+	list-style-type: disc;
+}
+
+.dark-prose ol {
+	list-style-type: decimal;
+}
+
+.dark-prose li {
+	line-height: 1.75;
+}
+
+.dark-prose li::marker {
+	color: var(--color-primary-500);
+}
+
+.dark-prose a {
+	color: var(--color-primary-300);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.dark-prose a:hover {
+	color: white;
+}
+

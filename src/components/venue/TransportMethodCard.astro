@@ -1,0 +1,70 @@
+---
+import type { TransportMethod } from '../../data/venue/Transportation';
+
+export interface Props {
+	method: TransportMethod;
+}
+
+const { method } = Astro.props;
+---
+
+<div id={method.id} class="venue-card">
+	<h3 class="venue-card-title">{method.title}</h3>
+
+	{method.images && (
+		<div class="venue-image-grid" data-lenis-prevent-horizontal>
+			{method.images.map((image) => (
+				<img src={image.src} alt={image.alt} loading="lazy" class="venue-image" data-lightbox />
+			))}
+		</div>
+	)}
+
+	<div class="dark-prose mt-2 space-y-3">
+		{method.summary.map((p) => <p>{p}</p>)}
+
+		{method.steps && (
+			<ol>
+				{method.steps.map((step) => <li>{step}</li>)}
+			</ol>
+		)}
+
+		{method.subroutes?.map((sub) => (
+			<>
+				<h4>{sub.title}</h4>
+				{sub.images && (
+					<div class="venue-image-grid" data-lenis-prevent-horizontal>
+						{sub.images.map((image) => (
+							<img src={image.src} alt={image.alt} loading="lazy" class="venue-image" data-lightbox />
+						))}
+					</div>
+				)}
+				<ol>
+					{sub.steps.map((step) => <li>{step}</li>)}
+				</ol>
+			</>
+		))}
+
+		{method.note && <p class="venue-card-text">{method.note}</p>}
+
+		{method.appLinks && (
+			<div class="flex flex-wrap items-center gap-3">
+				{method.appLinks.map((link) =>
+					link.platform ? (
+						<a href={link.href} target="_blank" rel="noreferrer" aria-label={link.label}>
+							<img
+								src={link.platform === 'ios' ? '/appstore.svg' : '/playstore.svg'}
+								alt={link.label}
+								loading="lazy"
+								class="h-10 w-auto"
+							/>
+						</a>
+					) : (
+						<a href={link.href} target="_blank" rel="noreferrer">
+							{link.label}
+						</a>
+					),
+				)}
+			</div>
+		)}
+	</div>
+</div>

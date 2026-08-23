@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageFrame from '../components/pageframe/PageFrame.tsx';
+import Header from '../components/Header.tsx';
+import SectionNav from '../components/SectionNav.astro';
+import ConductSection from '../components/conduct/ConductSection.astro';
+import ConductBlocks from '../components/conduct/ConductBlocks.astro';
+import LanguageNav from '../components/conduct/LanguageNav.astro';
+import { conductEN } from '../data/conduct/ConductEN';
+import { conductTH } from '../data/conduct/ConductTH';
+
+const languages = [conductEN, conductTH];
+
+// Mobile "on this page" drawer list — English, matching the language shown by
+// default on load (LanguageNav re-picks the last chosen language client-side).
+const pageSections = conductEN.sections.map((section) => ({ name: section.title, href: `#${section.id}` }));
+---
+
+<Layout
+	title="Code of Conduct — PyCon Thailand"
+	description="The PyCon Thailand 2027 code of conduct — a safe, respectful space for every Pythonista, available in English and Thai."
+>
+	<PageFrame client:load sections={pageSections}>
+		<Header
+			eyebrow="PyCon Thailand 2027"
+			title='Our Code of Conduct'
+			tagline= 'A safe, respectful space for every Pythonista.'
+			taglineHref= 'Code of Conduct'
+		/>
+		<div class="dark-page">
+			<LanguageNav />
+
+			{
+				languages.map((content, index) => (
+					// No styling classes on this wrapper — it's toggled via the native
+					// `hidden` attribute, which a competing Tailwind display utility
+					// (e.g. the `flex` on .page-layout below) would silently override.
+					<div data-lang-article={content.lang} lang={content.lang} hidden={index !== 0}>
+						<div class="page-layout">
+							<SectionNav
+								ariaLabel={`${content.title} sections`}
+								items={content.sections.map((section) => ({ id: section.id, title: section.title }))}
+							/>
+
+							<div class="page-content">
+								<article class="conduct-article">
+									<h1 class="conduct-title">{content.title}</h1>
+									{content.tagline && <p class="conduct-tagline">{content.tagline}</p>}
+									<div class="dark-prose conduct-body">
+										<ConductBlocks blocks={content.intro} />
+									</div>
+
+									{content.sections.map((section) => (
+										<ConductSection title={section.title} id={section.id}>
+											<ConductBlocks blocks={section.blocks} />
+										</ConductSection>
+									))}
+								</article>
+							</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</PageFrame>
+</Layout>

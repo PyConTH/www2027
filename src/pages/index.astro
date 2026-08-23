@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageFrame from '../components/pageframe/PageFrame.tsx';
+import Hero from '../components/landing/Hero.tsx';
+---
+
+<Layout
+	title="Welcome — PyCon Thailand"
+	description="PyCon Thailand 2027 is the community conference for Python developers in Thailand — join us for talks, workshops, and networking."
+>
+	<PageFrame client:load>
+		<Hero />
+	</PageFrame>
+</Layout>

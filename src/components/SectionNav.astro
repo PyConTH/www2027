@@ -1,0 +1,66 @@
+---
+// Floating sticky sidebar that jumps to in-page sections and highlights the
+// one currently in view. Generic: pass in whatever section list a page has —
+// used by both the venue page and the code of conduct page.
+export interface SectionNavItem {
+	id: string;
+	title: string;
+	subItems?: { id: string; title: string }[];
+}
+
+export interface Props {
+	items: SectionNavItem[];
+	ariaLabel: string;
+}
+
+const { items, ariaLabel } = Astro.props;
+---
+
+<nav class="section-sidebar" aria-label={ariaLabel}>
+	<ul class="section-sidebar-list">
+		{items.map((item) => (
+			<li>
+				<a href={`#${item.id}`} class="section-sidebar-link" data-spy-link={item.id}>
+					{item.title}
+				</a>
+				{item.subItems && (
+					<ul class="section-sidebar-sublist">
+						{item.subItems.map((sub) => (
+							<li>
+								<a href={`#${sub.id}`} class="section-sidebar-sublink" data-spy-link={sub.id}>
+									{sub.title}
+								</a>
+							</li>
+						))}
+					</ul>
+				)}
+			</li>
+		))}
+	</ul>
+</nav>
+
+<script>
+	const links = new Map(
+		Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-spy-link]')).map((el) => [
+			el.dataset.spyLink,
+			el,
+		]),
+	);
+
+	const targets = Array.from(links.keys())
+		.map((id) => (id ? document.getElementById(id) : null))
+		.filter((el): el is HTMLElement => el !== null);
+
+	if (targets.length && 'IntersectionObserver' in window) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					const link = links.get(entry.target.id);
+					if (link) link.classList.toggle('is-active', entry.isIntersecting);
+				});
+			},
+			{ rootMargin: '-112px 0px -70% 0px', threshold: 0 },
+		);
+		targets.forEach((el) => observer.observe(el));
+	}
+</script>

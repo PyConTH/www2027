@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageFrame from '../components/pageframe/PageFrame.tsx';
+import Header from '../components/Header.tsx';
+import Lightbox from '../components/venue/Lightbox.astro';
+import SectionNav from '../components/SectionNav.astro';
+import VenueSection from '../components/venue/VenueSection.astro';
+import TransportMethodCard from '../components/venue/TransportMethodCard.astro';
+import { venue } from '../data/venue/Venue';
+import { transportation } from '../data/venue/Transportation';
+
+const pageSections = [
+	{ name: 'The Venue', href: '#venue' },
+	{
+		name: 'Getting There',
+		href: '#transportation',
+		subItems: transportation.methods.map((method) => ({ name: method.title, href: `#${method.id}` })),
+	},
+];
+---
+
+<Layout
+	title="Venue — PyCon Thailand"
+	description="Venue details and getting-there information for PyCon Thailand 2027 at Avani Sukhumvit Bangkok."
+>
+	<PageFrame client:load sections={pageSections}>
+		<div class="dark-page">
+			<Header
+				eyebrow="PyCon Thailand 2027"
+				title={venue.name}
+				tagline={venue.address}
+				taglineHref={venue.mapUrl}
+			/>
+
+			<div class="page-layout">
+				<SectionNav
+					ariaLabel="Venue page sections"
+					items={[
+						{ id: 'venue', title: 'The Venue' },
+						{
+							id: 'transportation',
+							title: 'Getting There',
+							subItems: transportation.methods.map((method) => ({ id: method.id, title: method.title })),
+						},
+					]}
+				/>
+
+				<div class="page-content">
+					<VenueSection id="venue" title="The Venue">
+						<p>{venue.intro}</p>
+						<div class="space-y-4">
+							{venue.sections.map((section) => (
+								<div class="venue-card">
+									<h3 class="venue-card-title">{section.title}</h3>
+									{section.image && (
+										<img
+											src={section.image.src}
+											alt={section.image.alt}
+											loading="lazy"
+											class="venue-image venue-section-image"
+											data-lightbox
+										/>
+									)}
+									{section.paragraphs.map((p) => <p>{p}</p>)}
+								</div>
+							))}
+
+							<div class="venue-card">
+								<h3 class="venue-card-title"> Google Map </h3>
+								<div class="venue-image venue-section-image overflow-hidden">
+									<iframe
+										src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3876.212844942191!2d100.60179099999999!3d13.705554999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29f5881f210f9%3A0xe614ba9d6cbc85b2!2sAvani%20Sukhumvit%20Bangkok!5e0!3m2!1sen!2sth!4v1787461471132!5m2!1sen!2sth"
+										class="h-full w-full border-0"
+										loading="lazy"
+										referrerpolicy="strict-origin-when-cross-origin"
+										allowfullscreen
+										title={`Map showing the location of ${venue.name}`}
+									/>
+								</div>
+							</div>
+						</div>
+					</VenueSection>
+
+					<VenueSection id="transportation" title={transportation.title}>
+						<p class="page-eyebrow">{transportation.subtitle}</p>
+						<p>{transportation.intro}</p>
+
+						<div class="mt-6 space-y-6">
+							{transportation.methods.map((method) => (
+								<TransportMethodCard method={method} />
+							))}
+						</div>
+					</VenueSection>
+				</div>
+			</div>
+		</div>
+
+		<Lightbox />
+	</PageFrame>
+</Layout>

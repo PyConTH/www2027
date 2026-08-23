@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageFrame from '../components/pageframe/PageFrame.tsx';
+import Header from '../components/Header.tsx';
+---
+
+<Layout title="Page Not Found — PyCon Thailand" description="This page doesn't exist — let's get you back on track.">
+	<PageFrame client:load>
+		<Header eyebrow="404" title="Page Not Found" tagline="That page doesn't exist, or it's moved." fullHeight>
+			<a
+				href="/"
+				class="mt-6 inline-block rounded-full bg-primary-500 px-6 py-2 font-subheading text-lg tracking-wide text-primary-900 transition hover:bg-cream"
+			>
+				Back to Home
+			</a>
+		</Header>
+	</PageFrame>
+</Layout>
