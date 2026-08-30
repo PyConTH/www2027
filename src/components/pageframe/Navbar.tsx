@@ -69,26 +69,33 @@ const SOLID_SCROLL_THRESHOLD = 10;
 // button is ever shown to switch it from "Buy Ticket" to "Submit Proposal"
 // just change label/href here, both places pick it up.
 // TODO: Buy Ticket replace href with the "Eventpop event link" once it's live.
-// TODO: Submit Proposal replace href with the "Sessionize CFP link" once it's live ! 
+// TODO: Submit Proposal replace href with the "Sessionize CFP link" once it's live !
 const ctaButton = {
 	label: 'Buy Ticket',
 	href: 'https://www.eventpop.me/e/168229',
 };
 
+// Hide the CTA button until it's ready to go live (flip back to true to show it again).
+const SHOW_CTA_BUTTON = false;
+
 type CtaButtonProps = {
 	className?: string;
 };
 
-const CtaButton = ({ className = '' }: CtaButtonProps) => (
-	<a
-		href={ctaButton.href}
-		target="_blank"
-		rel="noopener noreferrer"
-		className={`bg-primary-500 font-subheading tracking-wide text-primary-900 text-lg transition hover:text-primary-900 hover:bg-cream ${className}`}
-	>
-		{ctaButton.label}
-	</a>
-);
+const CtaButton = ({ className = '' }: CtaButtonProps) => {
+	if (!SHOW_CTA_BUTTON) return null;
+
+	return (
+		<a
+			href={ctaButton.href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className={`bg-primary-500 font-subheading tracking-wide text-primary-900 text-lg transition hover:text-primary-900 hover:bg-cream ${className}`}
+		>
+			{ctaButton.label}
+		</a>
+	);
+};
 
 type NavbarProps = {
 	sections?: PageSection[];
