@@ -26,6 +26,7 @@ Ground rules: tabs, not spaces. Lefthook gates commits and pushes — oxfmt on p
 | Decorative creature/element SVGs                         | `src/assets/elements/creatures/`                                            |
 | Interactive island vs static markup                      | `client:load` in `src/pages/venue.astro`; `src/components/landing/Hero.tsx` |
 | Commit/push gates + formatter config                     | `lefthook.yml`, `.oxfmtrc.json`                                             |
+| Fixing npm audit findings (overrides, upgrades)          | `.agents/skills/npm-audit-fix/SKILL.md`                                     |
 
 ## Keeping this index honest
 
