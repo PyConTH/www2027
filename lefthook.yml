@@ -1,0 +1,20 @@
+# Git hooks managed by lefthook (https://lefthook.dev).
+# Run any hook by hand: `npx lefthook run <hook>`. Bypass for one push: `git push --no-verify`.
+pre-commit:
+  commands:
+    oxfmt:
+      # oxfmt has no parser for .astro/.svg — keep those indented by hand (tabs).
+      glob: '*.{js,cjs,mjs,cts,mts,ts,tsx,jsx,json,jsonc,css,md,toml}'
+      run: npx oxfmt {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    test:
+      # `test` is `astro check` until a real test runner lands.
+      run: npm run test
+    audit:
+      # Gate sits at critical, not high: 5 known highs in one chain with no upstream fix
+      # (extract-zip <- @netlify/functions-dev <- ... <- @astrojs/netlify). The only fix npm
+      # offers downgrades the adapter majorly. Bump to --audit-level=high when upstream patches.
+      run: npm run audit
